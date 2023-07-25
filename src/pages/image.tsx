@@ -4,7 +4,7 @@ import { pickMediaById } from "../utils/images/pick-media-by-id";
 import { useImageContext } from "../hooks/use-image-context";
 import { Image } from "../components/visual-media/image";
 import { PreviewImageGallery } from "../components/preview-image-gallery/preview-image-gallery";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useKeyboardNavigation } from "../hooks/use-keyboard-navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { PreloadImages } from "../components/preload-images";

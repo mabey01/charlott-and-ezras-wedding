@@ -1,9 +1,9 @@
 import {
-  Orientations,
-  VisualFormat,
   VisualVariantData,
+  VisualFormat,
+  Orientations,
   ImageData,
-} from "@/types/media";
+} from "../../types/media";
 
 export function createVariantData(
   src: string,
