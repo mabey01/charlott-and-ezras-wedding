@@ -10,6 +10,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { PreloadImages } from "../components/preload-images";
 import { ImageData } from "../types/media";
 import { ImageLink } from "../components/image-link/image-link";
+import { getImageURL } from "../utils/images/get-image-url";
 
 export function ImagePage() {
   const { imageId } = useParams();
@@ -48,7 +49,7 @@ export function ImagePage() {
   return (
     <>
       <div className="p-0.5 sm:p-2 md:p-4 h-screen flex flex-col gap-4 ">
-        <div className="flex-1 overflow-hidden flex flex-col gap-2">
+        <div className="flex-1 overflow-hidden flex flex-col gap-1">
           <div
             ref={imageRef}
             className="relative flex flex-1 justify-center items-center flex-col overflow-hidden"
@@ -71,13 +72,32 @@ export function ImagePage() {
               </motion.div>
             </AnimatePresence>
           </div>
-          <div className="flex justify-center">
-            <button onClick={handleRequestFullScreen}>
+          <div className="flex justify-center items-center gap-2">
+            <a
+              download={image.meta.name}
+              href={getImageURL(image, "2560", "jpeg")}
+              className="text-neutral-400 flex gap-1.5 items-center hover:bg-neutral-100 rounded px-2 py-1"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
-                className="w-4 h-4 text-neutral-400"
+                className="w-4 h-4"
+              >
+                <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" />
+                <path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z" />
+              </svg>
+              <span className="text-xs">Download</span>
+            </a>
+            <button
+              onClick={handleRequestFullScreen}
+              className="text-neutral-400 flex gap-1 items-center hover:bg-neutral-100 rounded px-2 py-1"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="w-4 h-4"
               >
                 <path d="M13.28 7.78l3.22-3.22v2.69a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.69l-3.22 3.22a.75.75 0 001.06 1.06zM2 17.25v-4.5a.75.75 0 011.5 0v2.69l3.22-3.22a.75.75 0 011.06 1.06L4.56 16.5h2.69a.75.75 0 010 1.5h-4.5a.747.747 0 01-.75-.75zM12.22 13.28l3.22 3.22h-2.69a.75.75 0 000 1.5h4.5a.747.747 0 00.75-.75v-4.5a.75.75 0 00-1.5 0v2.69l-3.22-3.22a.75.75 0 10-1.06 1.06zM3.5 4.56l3.22 3.22a.75.75 0 001.06-1.06L4.56 3.5h2.69a.75.75 0 000-1.5h-4.5a.75.75 0 00-.75.75v4.5a.75.75 0 001.5 0V4.56z" />
               </svg>
