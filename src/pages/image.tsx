@@ -42,8 +42,6 @@ export function ImagePage() {
     Boolean
   ) as ImageData[];
 
-  console.log(bounds);
-
   const navigateToPrevious = () => {
     previousImage && navigate(`/image/${previousImage.id}`);
   };
@@ -94,7 +92,12 @@ export function ImagePage() {
                 initial="enter"
                 animate="idle"
                 exit="exit"
-                transition={{ type: "spring", stiffness: 400, damping: 29 }}
+                transition={{
+                  duration: 0.2,
+                  // type: "spring",
+                  // stiffness: 400,
+                  // damping: 29,
+                }}
                 className="absolute inset-0 flex flex-col justify-center items-center"
               >
                 <Image
