@@ -61,7 +61,7 @@ export function ImagePage() {
               key={image.id}
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.2}
+              dragElastic={0.4}
               onDragEnd={(_, info) => {
                 if (info.velocity.x > 20) {
                   navigateToPrevious();
