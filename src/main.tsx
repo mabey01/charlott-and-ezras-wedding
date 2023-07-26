@@ -7,6 +7,7 @@ import { HomePage } from "./pages/home.tsx";
 import "./index.css";
 import ErrorPage from "./pages/error.tsx";
 import { ImagePage } from "./pages/image.tsx";
+import { Tooltip } from "./components/tooltip/tooltip.tsx";
 
 const router = createBrowserRouter([
   {
@@ -22,8 +23,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ImageProvider>
-      <RouterProvider router={router} />
-    </ImageProvider>
+    <Tooltip.Provider delayDuration={200}>
+      <ImageProvider>
+        <RouterProvider router={router} />
+      </ImageProvider>
+    </Tooltip.Provider>
   </React.StrictMode>
 );

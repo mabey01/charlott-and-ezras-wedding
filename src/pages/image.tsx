@@ -6,12 +6,10 @@ import { Image } from "../components/visual-media/image";
 import { PreviewImageGallery } from "../components/preview-image-gallery/preview-image-gallery";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useKeyboardNavigation } from "../hooks/use-keyboard-navigation";
-import { AnimatePresence, motion } from "framer-motion";
 import { PreloadImages } from "../components/preload-images";
 import { ImageData } from "../types/media";
 import { ImageLink } from "../components/image-link/image-link";
 import { getImageURL } from "../utils/images/get-image-url";
-import { useDebounce } from "react-use";
 
 export function ImagePage() {
   const { imageId } = useParams();
@@ -48,7 +46,7 @@ export function ImagePage() {
   return (
     <>
       <div className="p-0.5 sm:p-2 md:p-4 h-screen flex flex-col gap-4 ">
-        <div className="flex-1 overflow-hidden flex flex-col gap-1">
+        <div className="flex-1 overflow-hidden flex flex-col gap-1 lg:p-4">
           <div
             ref={imageRef}
             className="relative flex flex-1 justify-center items-center flex-col overflow-hidden"
@@ -82,6 +80,7 @@ export function ImagePage() {
                   clipRule="evenodd"
                 />
               </svg>
+              <span className="text-xs">Back to Grid View</span>
             </Link>
             <a
               download={image.meta.name}

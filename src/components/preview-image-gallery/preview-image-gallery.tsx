@@ -3,7 +3,6 @@ import { ComponentProps, useRef } from "react";
 import clsx from "clsx";
 import { ImageData } from "../../types/media";
 import { Link } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
 
 const NUMBER_OF_PREVIEW_IMAGES = 7;
 
@@ -48,7 +47,7 @@ export function PreviewImageGallery({
             <Image
               imageData={image}
               quality="80sq"
-              className={clsx("h-12 rounded-sm", {
+              className={clsx("h-12 rounded", {
                 ["opacity-100"]: image.id === currentImage.id,
                 ["opacity-50"]: image.id !== currentImage.id,
               })}
