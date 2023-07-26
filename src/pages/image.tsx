@@ -10,7 +10,8 @@ import { PreloadImages } from "../components/preload-images";
 import { ImageData } from "../types/media";
 import { ImageLink } from "../components/image-link/image-link";
 import { getImageURL } from "../utils/images/get-image-url";
-import { motion } from "framer-motion";
+import { AnimatePresence, Variants, motion } from "framer-motion";
+import { usePrevious } from "react-use";
 
 export function ImagePage() {
   const { imageId } = useParams();
@@ -25,11 +26,18 @@ export function ImagePage() {
 
   const image = pickMediaById(allImages, imageId);
 
-  const imagesIndex = allImages.indexOf(image);
+  const imageIndex = allImages.indexOf(image);
+  const previousImageIndex = usePrevious(imageIndex);
+  const direction =
+    previousImageIndex === undefined
+      ? 0
+      : imageIndex > previousImageIndex
+      ? 1
+      : -1;
 
-  const currentImage = allImages.at(imagesIndex)!;
-  const previousImage = allImages[imagesIndex - 1];
-  const nextImage = allImages.at(imagesIndex + 1);
+  const currentImage = allImages.at(imageIndex)!;
+  const previousImage = allImages[imageIndex - 1];
+  const nextImage = allImages.at(imageIndex + 1);
 
   const preloadingImages = [previousImage, nextImage].filter(
     Boolean
@@ -57,31 +65,40 @@ export function ImagePage() {
             ref={imageRef}
             className="relative flex flex-1 justify-center items-center flex-col overflow-hidden"
           >
-            <motion.div
-              key={image.id}
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.4}
-              onDragEnd={(_, info) => {
-                if (info.velocity.x > 20) {
-                  navigateToPrevious();
-                  return;
-                }
+            <AnimatePresence custom={direction}>
+              <motion.div
+                key={image.id}
+                custom={direction}
+                drag="x"
+                dragConstraints={{ left: -50, right: 50 }}
+                dragElastic={0.2}
+                dragSnapToOrigin
+                onDragEnd={(_, info) => {
+                  if (info.velocity.x > 20) {
+                    navigateToPrevious();
+                    return;
+                  }
 
-                if (info.velocity.x < -20) {
-                  navigateToNext();
-                  return;
-                }
-              }}
-              className="absolute inset-0 flex flex-col justify-center items-center"
-            >
-              <Image
-                imageData={image}
-                quality="2560"
-                imageClassName="rounded-xl"
-                loading="eager"
-              />
-            </motion.div>
+                  if (info.velocity.x < -20) {
+                    navigateToNext();
+                    return;
+                  }
+                }}
+                variants={imageVariants}
+                initial="enter"
+                animate="idle"
+                exit="exit"
+                transition={{ type: "spring", stiffness: 400, damping: 26 }}
+                className="absolute inset-0 flex flex-col justify-center items-center"
+              >
+                <Image
+                  imageData={image}
+                  quality="2560"
+                  imageClassName="rounded-xl"
+                  loading="eager"
+                />
+              </motion.div>
+            </AnimatePresence>
           </div>
           <div className="flex justify-center items-center gap-2">
             <Link
@@ -182,3 +199,9 @@ export function ImagePage() {
     </>
   );
 }
+
+const imageVariants: Variants = {
+  enter: (direction: number) => ({ x: direction * 400 }),
+  idle: { x: 0 },
+  exit: (direction: number) => ({ x: direction * -400 }),
+};
