@@ -11,7 +11,7 @@ import { ImageData } from "../types/media";
 import { ImageLink } from "../components/image-link/image-link";
 import { getImageURL } from "../utils/images/get-image-url";
 import { AnimatePresence, Variants, motion } from "framer-motion";
-import { usePrevious } from "react-use";
+import { useMeasure, usePrevious } from "react-use";
 
 export function ImagePage() {
   const { imageId } = useParams();
@@ -21,7 +21,7 @@ export function ImagePage() {
     throw new Error("ImageId is missing from route");
   }
 
-  const imageRef = useRef<HTMLDivElement>(null);
+  const [imageRef, bounds] = useMeasure<HTMLDivElement>();
   const { allImages } = useImageContext();
 
   const image = pickMediaById(allImages, imageId);
@@ -43,6 +43,8 @@ export function ImagePage() {
     Boolean
   ) as ImageData[];
 
+  console.log(bounds);
+
   const navigateToPrevious = () => {
     previousImage && navigate(`/image/${previousImage.id}`);
   };
@@ -57,6 +59,11 @@ export function ImagePage() {
     imageRef.current?.requestFullscreen();
   };
 
+  const custom: ImageVariantsCustom = {
+    direction,
+    width: bounds.width,
+  };
+
   return (
     <>
       <div className="px-0.5 pb-2 sm:p-2 md:p-4 h-screen flex flex-col gap-4 ">
@@ -65,10 +72,10 @@ export function ImagePage() {
             ref={imageRef}
             className="relative flex flex-1 justify-center items-center flex-col overflow-hidden"
           >
-            <AnimatePresence custom={direction}>
+            <AnimatePresence custom={custom}>
               <motion.div
                 key={image.id}
-                custom={direction}
+                custom={custom}
                 drag="x"
                 dragConstraints={{ left: -50, right: 50 }}
                 dragElastic={0.2}
@@ -88,7 +95,7 @@ export function ImagePage() {
                 initial="enter"
                 animate="idle"
                 exit="exit"
-                transition={{ type: "spring", stiffness: 400, damping: 26 }}
+                transition={{ type: "spring", stiffness: 400, damping: 29 }}
                 className="absolute inset-0 flex flex-col justify-center items-center"
               >
                 <Image
@@ -200,8 +207,17 @@ export function ImagePage() {
   );
 }
 
+type ImageVariantsCustom = {
+  direction: number;
+  width: number;
+};
+
 const imageVariants: Variants = {
-  enter: (direction: number) => ({ x: direction * 400 }),
+  enter: ({ direction, width }: ImageVariantsCustom) => ({
+    x: direction * width,
+  }),
   idle: { x: 0 },
-  exit: (direction: number) => ({ x: direction * -400 }),
+  exit: ({ direction, width }: ImageVariantsCustom) => ({
+    x: direction * width * -1,
+  }),
 };
