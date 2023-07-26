@@ -10,6 +10,7 @@ import { PreloadImages } from "../components/preload-images";
 import { ImageData } from "../types/media";
 import { ImageLink } from "../components/image-link/image-link";
 import { getImageURL } from "../utils/images/get-image-url";
+import { motion } from "framer-motion";
 
 export function ImagePage() {
   const { imageId } = useParams();
@@ -34,10 +35,15 @@ export function ImagePage() {
     Boolean
   ) as ImageData[];
 
-  useKeyboardNavigation(
-    () => previousImage && navigate(`/image/${previousImage.id}`),
-    () => nextImage && navigate(`/image/${nextImage.id}`)
-  );
+  const navigateToPrevious = () => {
+    previousImage && navigate(`/image/${previousImage.id}`);
+  };
+
+  const navigateToNext = () => {
+    nextImage && navigate(`/image/${nextImage.id}`);
+  };
+
+  useKeyboardNavigation(navigateToPrevious, navigateToNext);
 
   const handleRequestFullScreen = () => {
     imageRef.current?.requestFullscreen();
@@ -51,8 +57,22 @@ export function ImagePage() {
             ref={imageRef}
             className="relative flex flex-1 justify-center items-center flex-col overflow-hidden"
           >
-            <div
+            <motion.div
               key={image.id}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
+              onDragEnd={(_, info) => {
+                if (info.velocity.x > 20) {
+                  navigateToPrevious();
+                  return;
+                }
+
+                if (info.velocity.x < -20) {
+                  navigateToNext();
+                  return;
+                }
+              }}
               className="absolute inset-0 flex flex-col justify-center items-center"
             >
               <Image
@@ -61,7 +81,7 @@ export function ImagePage() {
                 imageClassName="rounded-xl"
                 loading="eager"
               />
-            </div>
+            </motion.div>
           </div>
           <div className="flex justify-center items-center gap-2">
             <Link
