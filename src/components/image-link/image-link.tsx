@@ -3,14 +3,19 @@ import { ImageData } from "../../types/media";
 import { Link } from "react-router-dom";
 
 interface ImageLinkProps {
+  className?: string;
   image?: ImageData;
   children: ReactNode;
 }
 
-export function ImageLink({ image, children }: ImageLinkProps) {
+export function ImageLink({ image, children, ...props }: ImageLinkProps) {
   if (!image) {
-    return <div>{children}</div>;
+    return <div {...props}>{children}</div>;
   }
 
-  return <Link to={`/image/${image.id}`}>{children}</Link>;
+  return (
+    <Link {...props} to={`/image/${image.id}`}>
+      {children}
+    </Link>
+  );
 }

@@ -45,7 +45,7 @@ export function ImagePage() {
 
   return (
     <>
-      <div className="p-0.5 sm:p-2 md:p-4 h-screen flex flex-col gap-4 ">
+      <div className="px-0.5 pb-2 sm:p-2 md:p-4 h-screen flex flex-col gap-4 ">
         <div className="flex-1 overflow-hidden flex flex-col gap-1 lg:p-4">
           <div
             ref={imageRef}
@@ -115,7 +115,7 @@ export function ImagePage() {
           </div>
         </div>
         <div className="flex justify-center gap-2 items-center">
-          <ImageLink image={previousImage}>
+          <ImageLink image={previousImage} className="h-full flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -138,7 +138,7 @@ export function ImagePage() {
             images={allImages}
             currentImage={currentImage}
           />
-          <ImageLink image={nextImage}>
+          <ImageLink image={nextImage} className="h-full flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
