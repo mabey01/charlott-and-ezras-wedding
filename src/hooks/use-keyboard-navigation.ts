@@ -1,4 +1,4 @@
-import { useKey } from "react-use";
+import { useKeyboardEvent } from "@react-hookz/web";
 
 type handleNavigation = () => void;
 
@@ -6,6 +6,11 @@ export function useKeyboardNavigation(
   onPrevious: handleNavigation,
   onNext: handleNavigation
 ) {
-  useKey("ArrowLeft", onPrevious, {}, [onPrevious]);
-  useKey("ArrowRight", onNext, {}, [onNext]);
+  useKeyboardEvent("ArrowLeft", onPrevious, [onPrevious], {
+    eventOptions: { passive: true },
+  });
+
+  useKeyboardEvent("ArrowRight", onNext, [onNext], {
+    eventOptions: { passive: true },
+  });
 }

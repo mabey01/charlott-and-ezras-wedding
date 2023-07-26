@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { useRef } from "react";
 import { pickMediaById } from "../utils/images/pick-media-by-id";
 import { useImageContext } from "../hooks/use-image-context";
 import { Image } from "../components/visual-media/image";
@@ -11,7 +10,7 @@ import { ImageData } from "../types/media";
 import { ImageLink } from "../components/image-link/image-link";
 import { getImageURL } from "../utils/images/get-image-url";
 import { AnimatePresence, Variants, motion } from "framer-motion";
-import { useMeasure, usePrevious } from "react-use";
+import { useMeasure, usePrevious } from "@react-hookz/web";
 
 export function ImagePage() {
   const { imageId } = useParams();
@@ -21,7 +20,7 @@ export function ImagePage() {
     throw new Error("ImageId is missing from route");
   }
 
-  const [imageRef, bounds] = useMeasure<HTMLDivElement>();
+  const [bounds, imageRef] = useMeasure<HTMLDivElement>();
   const { allImages } = useImageContext();
 
   const image = pickMediaById(allImages, imageId);
@@ -61,7 +60,7 @@ export function ImagePage() {
 
   const custom: ImageVariantsCustom = {
     direction,
-    width: bounds.width,
+    width: bounds?.width || 100,
   };
 
   return (
