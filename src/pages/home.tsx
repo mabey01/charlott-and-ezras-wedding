@@ -2,9 +2,23 @@ import { Link } from "react-router-dom";
 import { GridViewBlock } from "../components/grid-view-block/grid-view-block";
 import { MediaGrid } from "../components/media-grid/media-grid";
 import { useImageGroups } from "../hooks/use-image-groups";
+import { useSupabaseContext } from "../hooks/use-supabase-provider";
+import { useEffect } from "react";
 
-export function HomePage() {
+export default function HomePage() {
   const imageGroups = useImageGroups();
+  const { client } = useSupabaseContext();
+
+  useEffect(() => {
+    const fetchSomething = async () => {
+      const { data, error } = await client.from("Likes").select();
+
+      console.log(data);
+      console.log(error);
+    };
+
+    fetchSomething();
+  }, []);
 
   return (
     <>

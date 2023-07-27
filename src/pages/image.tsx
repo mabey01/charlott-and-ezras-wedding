@@ -3,7 +3,7 @@ import { pickMediaById } from "../utils/images/pick-media-by-id";
 import { useImageContext } from "../hooks/use-image-context";
 import { Image } from "../components/visual-media/image";
 import { PreviewImageGallery } from "../components/preview-image-gallery/preview-image-gallery";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useKeyboardNavigation } from "../hooks/use-keyboard-navigation";
 import { PreloadImages } from "../components/preload-images";
 import { ImageData } from "../types/media";
@@ -11,8 +11,12 @@ import { ImageLink } from "../components/image-link/image-link";
 import { getImageURL } from "../utils/images/get-image-url";
 import { AnimatePresence, Variants, motion } from "framer-motion";
 import { useMeasure, usePrevious } from "@react-hookz/web";
+import { useLikeImage } from "../hooks/use-like-image";
+import { useImageStats } from "../hooks/use-image-stats";
+import { useLikedAnimation } from "../hooks/use-liked-animation";
+import { useUnlikeImage } from "../hooks/use-unlike-image";
 
-export function ImagePage() {
+export default function ImagePage() {
   const { imageId } = useParams();
   const navigate = useNavigate();
 
@@ -38,6 +42,10 @@ export function ImagePage() {
   const previousImage = allImages[imageIndex - 1];
   const nextImage = allImages.at(imageIndex + 1);
 
+  const { data: stats, isLoading } = useImageStats(currentImage.id);
+  const { mutateAsync: likeImage } = useLikeImage(currentImage.id);
+  const { mutateAsync: unlikeImage } = useUnlikeImage(currentImage.id);
+  const controls = useLikedAnimation(stats?.localUserHasLiked);
   const preloadingImages = [previousImage, nextImage].filter(
     Boolean
   ) as ImageData[];
@@ -88,15 +96,13 @@ export function ImagePage() {
                     return;
                   }
                 }}
+                onDoubleClick={() => likeImage()}
                 variants={imageVariants}
                 initial="enter"
                 animate="idle"
                 exit="exit"
                 transition={{
                   duration: 0.2,
-                  // type: "spring",
-                  // stiffness: 400,
-                  // damping: 29,
                 }}
                 className="absolute inset-0 flex flex-col justify-center items-center"
               >
@@ -108,9 +114,21 @@ export function ImagePage() {
                 />
               </motion.div>
             </AnimatePresence>
+            <div className="absolute inset-0 grid place-content-center pointer-events-none">
+              <motion.svg
+                initial={{ opacity: 0 }}
+                animate={controls}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="w-12 h-12 text-red-400 drop-shadow"
+              >
+                <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+              </motion.svg>
+            </div>
           </div>
           <div className="flex justify-center items-center gap-2">
-            <Link
+            {/* <Link
               to="/"
               className="text-neutral-400 flex gap-1.5 items-center hover:bg-neutral-100 rounded px-2 py-1"
             >
@@ -127,7 +145,30 @@ export function ImagePage() {
                 />
               </svg>
               <span className="text-xs">Back to Grid View</span>
-            </Link>
+            </Link> */}
+            <button
+              onClick={() =>
+                stats?.localUserHasLiked ? unlikeImage() : likeImage()
+              }
+              className={clsx(
+                "flex gap-1 items-center hover:bg-neutral-100 rounded px-2 py-1",
+                {
+                  ["text-neutral-400"]: !stats?.localUserHasLiked,
+                  ["text-red-400"]: stats?.localUserHasLiked,
+                }
+              )}
+            >
+              {!isLoading && <span className="text-xs">{stats?.likes}</span>}
+              {isLoading && <span className="text-xs">0</span>}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="w-4 h-4 mt-[1px]"
+              >
+                <path d="M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 018-2.828A4.5 4.5 0 0118 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 01-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 01-.69.001l-.002-.001z" />
+              </svg>
+            </button>
             <a
               download={image.meta.name}
               href={getImageURL(image, "2560", "jpeg")}
