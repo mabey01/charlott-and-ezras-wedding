@@ -1,9 +1,6 @@
-import { usePrevious } from "@react-hookz/web";
 import { useAnimationControls } from "framer-motion";
-import { useEffect } from "react";
 
-export function useLikedAnimation(play?: boolean) {
-  const previousPlay = usePrevious(play);
+export function useLikedAnimation() {
   const controls = useAnimationControls();
 
   const playLikedAnimation = async () => {
@@ -33,14 +30,5 @@ export function useLikedAnimation(play?: boolean) {
     });
   };
 
-  useEffect(() => {
-    if (play === undefined) return;
-    if (previousPlay === undefined) return;
-    if (play === false) return;
-    if (previousPlay === true) return;
-
-    playLikedAnimation();
-  }, [play, previousPlay]);
-
-  return controls;
+  return { controls, play: playLikedAnimation };
 }

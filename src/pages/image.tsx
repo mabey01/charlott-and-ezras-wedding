@@ -15,6 +15,7 @@ import { useLikeImage } from "../hooks/use-like-image";
 import { useImageStats } from "../hooks/use-image-stats";
 import { useLikedAnimation } from "../hooks/use-liked-animation";
 import { useUnlikeImage } from "../hooks/use-unlike-image";
+import { useCallback } from "react";
 
 export default function ImagePage() {
   const { imageId } = useParams();
@@ -45,7 +46,7 @@ export default function ImagePage() {
   const { data: stats, isLoading } = useImageStats(currentImage.id);
   const { mutateAsync: likeImage } = useLikeImage(currentImage.id);
   const { mutateAsync: unlikeImage } = useUnlikeImage(currentImage.id);
-  const controls = useLikedAnimation(stats?.localUserHasLiked);
+  const { controls, play } = useLikedAnimation();
   const preloadingImages = [previousImage, nextImage].filter(
     Boolean
   ) as ImageData[];
@@ -69,10 +70,15 @@ export default function ImagePage() {
     width: bounds?.width || 100,
   };
 
+  const likeImageWithAnimation = useCallback(() => {
+    likeImage();
+    play();
+  }, [likeImage, play]);
+
   return (
     <>
       <div className="px-0.5 pb-2 sm:p-2 md:p-4 h-screen flex flex-col gap-4 ">
-        <div className="flex-1 overflow-hidden flex flex-col gap-1 lg:p-4">
+        <div className="flex-1 flex flex-col gap-1 lg:p-4">
           <div
             ref={imageRef}
             className="relative flex flex-1 justify-center items-center flex-col overflow-hidden"
@@ -96,7 +102,7 @@ export default function ImagePage() {
                     return;
                   }
                 }}
-                onDoubleClick={() => likeImage()}
+                onDoubleClick={() => likeImageWithAnimation()}
                 variants={imageVariants}
                 initial="enter"
                 animate="idle"
@@ -116,6 +122,7 @@ export default function ImagePage() {
             </AnimatePresence>
             <div className="absolute inset-0 grid place-content-center pointer-events-none">
               <motion.svg
+                key={image.id}
                 initial={{ opacity: 0 }}
                 animate={controls}
                 xmlns="http://www.w3.org/2000/svg"
@@ -128,27 +135,11 @@ export default function ImagePage() {
             </div>
           </div>
           <div className="flex justify-center items-center gap-2">
-            {/* <Link
-              to="/"
-              className="text-neutral-400 flex gap-1.5 items-center hover:bg-neutral-100 rounded px-2 py-1"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                className="w-4 h-4"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M4.25 2A2.25 2.25 0 002 4.25v2.5A2.25 2.25 0 004.25 9h2.5A2.25 2.25 0 009 6.75v-2.5A2.25 2.25 0 006.75 2h-2.5zm0 9A2.25 2.25 0 002 13.25v2.5A2.25 2.25 0 004.25 18h2.5A2.25 2.25 0 009 15.75v-2.5A2.25 2.25 0 006.75 11h-2.5zm9-9A2.25 2.25 0 0011 4.25v2.5A2.25 2.25 0 0013.25 9h2.5A2.25 2.25 0 0018 6.75v-2.5A2.25 2.25 0 0015.75 2h-2.5zm0 9A2.25 2.25 0 0011 13.25v2.5A2.25 2.25 0 0013.25 18h2.5A2.25 2.25 0 0018 15.75v-2.5A2.25 2.25 0 0015.75 11h-2.5z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span className="text-xs">Back to Grid View</span>
-            </Link> */}
             <button
               onClick={() =>
-                stats?.localUserHasLiked ? unlikeImage() : likeImage()
+                stats?.localUserHasLiked
+                  ? unlikeImage()
+                  : likeImageWithAnimation()
               }
               className={clsx(
                 "flex gap-1 items-center hover:bg-neutral-100 rounded px-2 py-1",
