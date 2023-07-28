@@ -21,7 +21,7 @@ export function MediaGrid({ media, className, ...props }: MediaGridProps) {
         <li key={image.id}>
           <Link
             to={`/image/${image.id}`}
-            className="group block relative overflow-hidden rounded-lg focus-visible:outline focus-visible:outline-4 focus-visible:outline-pink-400 focus-visible:outline-offset-2"
+            className="group block relative overflow-hidden rounded-lg focus-visible:outline focus-visible:outline-4 focus-visible:outline-blue-400 focus-visible:outline-offset-2"
           >
             <Image
               imageData={image}

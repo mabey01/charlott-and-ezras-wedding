@@ -2,23 +2,9 @@ import { Link } from "react-router-dom";
 import { GridViewBlock } from "../components/grid-view-block/grid-view-block";
 import { MediaGrid } from "../components/media-grid/media-grid";
 import { useImageGroups } from "../hooks/use-image-groups";
-import { useSupabaseContext } from "../hooks/use-supabase-provider";
-import { useEffect } from "react";
 
 export default function HomePage() {
   const imageGroups = useImageGroups();
-  const { client } = useSupabaseContext();
-
-  useEffect(() => {
-    const fetchSomething = async () => {
-      const { data, error } = await client.from("Likes").select();
-
-      console.log(data);
-      console.log(error);
-    };
-
-    fetchSomething();
-  }, []);
 
   return (
     <>
@@ -47,14 +33,17 @@ export default function HomePage() {
         </div>
 
         <div className="h-[33%] md:h-[15%] xl:h-[10%] pb-4 flex justify-center items-end">
-          <Link to="#the-night-before">
+          <a
+            href="#the-night-before"
+            className="text-neutral-400 hover:text-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 rounded"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-6 h-6 text-neutral-400"
+              className="w-6 h-6"
             >
               <path
                 strokeLinecap="round"
@@ -62,7 +51,7 @@ export default function HomePage() {
                 d="M19.5 8.25l-7.5 7.5-7.5-7.5"
               />
             </svg>
-          </Link>
+          </a>
         </div>
       </header>
       <main className="p-2 mt-32 md:p-4 lg:p-8 container mx-auto flex flex-col gap-32 md:gap-64">
