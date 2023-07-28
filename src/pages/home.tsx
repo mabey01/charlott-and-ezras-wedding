@@ -33,7 +33,7 @@ export default function HomePage() {
               className="h-full object-cover rounded-xl"
               width="1920"
               height="1080"
-              src="https://storage.googleapis.com/charlott-and-ezras-wedding-media-files/videos/Wedding%20Header%20v8.mp4"
+              src="https://storage.googleapis.com/charlott-and-ezras-wedding-media-files/videos/Wedding%20Header.mp4"
               autoPlay
               muted
               loop
