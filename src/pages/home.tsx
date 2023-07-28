@@ -1,10 +1,20 @@
-import { Link } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { GridViewBlock } from "../components/grid-view-block/grid-view-block";
 import { MediaGrid } from "../components/media-grid/media-grid";
 import { useImageGroups } from "../hooks/use-image-groups";
+import { useLayoutEffect } from "react";
 
 export default function HomePage() {
   const imageGroups = useImageGroups();
+  const [searchParams] = useSearchParams();
+
+  useLayoutEffect(() => {
+    const lastSeenImage = searchParams.get("image");
+    const imageComponent = document.querySelector(`#image-${lastSeenImage}`);
+    if (imageComponent) {
+      imageComponent.scrollIntoView({ behavior: "instant" });
+    }
+  }, []);
 
   return (
     <>

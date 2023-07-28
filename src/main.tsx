@@ -18,12 +18,20 @@ const ImagePage = lazy(() => import("./pages/image.tsx"));
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
+    element: (
+      <Suspense fallback={<LoadingPage>Loading grid</LoadingPage>}>
+        <HomePage />
+      </Suspense>
+    ),
     errorElement: <ErrorPage />,
   },
   {
     path: "image/:imageId",
-    element: <ImagePage />,
+    element: (
+      <Suspense fallback={<LoadingPage>Loading image</LoadingPage>}>
+        <ImagePage />
+      </Suspense>
+    ),
   },
 ]);
 
@@ -36,9 +44,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Tooltip.Provider delayDuration={200}>
           <UserProvider>
             <ImageProvider>
-              <Suspense fallback={<LoadingPage />}>
-                <RouterProvider router={router} />
-              </Suspense>
+              <RouterProvider router={router} />
             </ImageProvider>
           </UserProvider>
         </Tooltip.Provider>

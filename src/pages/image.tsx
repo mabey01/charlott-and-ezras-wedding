@@ -3,7 +3,7 @@ import { pickMediaById } from "../utils/images/pick-media-by-id";
 import { useImageContext } from "../hooks/use-image-context";
 import { Image } from "../components/visual-media/image";
 import { PreviewImageGallery } from "../components/preview-image-gallery/preview-image-gallery";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useKeyboardNavigation } from "../hooks/use-keyboard-navigation";
 import { PreloadImages } from "../components/preload-images";
 import { ImageData } from "../types/media";
@@ -77,7 +77,29 @@ export default function ImagePage() {
 
   return (
     <>
-      <div className="px-0.5 pb-2 sm:p-2 md:p-4 h-screen flex flex-col gap-4 ">
+      <div className="px-0.5 py-2 sm:p-2 md:p-4 h-screen flex flex-col gap-4 ">
+        <div>
+          <Link
+            to={`/?image=${image.id}`}
+            className="flex gap-1 items-center text-neutral-600 group"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="w-5 h-5 text-neutral-400"
+            >
+              <path
+                fillRule="evenodd"
+                d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <span className="group-hover:text-neutral-800 text-sm">
+              Back to grid view
+            </span>
+          </Link>
+        </div>
         <div className="flex-1 flex flex-col gap-1 lg:p-4">
           <div
             ref={imageRef}
