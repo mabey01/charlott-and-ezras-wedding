@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import React, { Suspense, lazy } from "react";
 import ReactDOM from "react-dom/client";
 import { ImageProvider } from "./provider/image-provider.tsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
@@ -10,6 +10,7 @@ import { Tooltip } from "./components/tooltip/tooltip.tsx";
 import { SupabaseProvider } from "./provider/supabase-provider.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { UserProvider } from "./provider/user-provider.tsx";
+import LoadingPage from "./pages/loading.tsx";
 
 const HomePage = lazy(() => import("./pages/home.tsx"));
 const ImagePage = lazy(() => import("./pages/image.tsx"));
@@ -35,7 +36,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Tooltip.Provider delayDuration={200}>
           <UserProvider>
             <ImageProvider>
-              <RouterProvider router={router} />
+              <Suspense fallback={<LoadingPage />}>
+                <RouterProvider router={router} />
+              </Suspense>
             </ImageProvider>
           </UserProvider>
         </Tooltip.Provider>
