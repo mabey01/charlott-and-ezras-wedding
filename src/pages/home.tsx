@@ -3,6 +3,8 @@ import { GridViewBlock } from "../components/grid-view-block/grid-view-block";
 import { MediaGrid } from "../components/media-grid/media-grid";
 import { useImageGroups } from "../hooks/use-image-groups";
 import { useLayoutEffect } from "react";
+import { Translate } from "../components/translate/translate";
+import { LanguageSwitcher } from "../components/language-switcher/language-switcher";
 
 export default function HomePage() {
   const imageGroups = useImageGroups();
@@ -23,7 +25,7 @@ export default function HomePage() {
           <div className="flex flex-col items-center">
             <span className="text-neutral-400">22.07.2023</span>
             <h1 className="font-bold text-4xl xl:text-5xl font-serif text-center lg:mt-2">
-              Charlott and Ezra's Wedding
+              <Translate k="home.headline" />
             </h1>
           </div>
         </div>
@@ -42,7 +44,8 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="h-[33%] md:h-[15%] xl:h-[10%] pb-4 flex justify-center items-end">
+        <div className="h-[33%] md:h-[15%] xl:h-[10%] pb-4 flex flex-col gap-1 justify-end items-center">
+          <LanguageSwitcher className="text-neutral-400 text-sm" />
           <a
             href="#the-night-before"
             className="text-neutral-400 hover:text-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 rounded"
@@ -65,23 +68,26 @@ export default function HomePage() {
         </div>
       </header>
       <main className="p-2 mt-32 md:p-4 lg:p-8 container mx-auto flex flex-col gap-32 md:gap-64">
-        <GridViewBlock id="the-night-before" headline="The Night Before">
+        <GridViewBlock
+          id="the-night-before"
+          headline={<Translate k="home.chapters.nightBefore" />}
+        >
           <MediaGrid media={imageGroups.nightBefore} />
         </GridViewBlock>
 
-        <GridViewBlock headline="The Morning Of">
+        <GridViewBlock headline={<Translate k="home.chapters.morning" />}>
           <MediaGrid media={imageGroups.morning} />
         </GridViewBlock>
-        <GridViewBlock headline="The Arrival">
+        <GridViewBlock headline={<Translate k="home.chapters.arrival" />}>
           <MediaGrid media={imageGroups.arrival} />
         </GridViewBlock>
-        <GridViewBlock headline="The Walk">
+        <GridViewBlock headline={<Translate k="home.chapters.walk" />}>
           <MediaGrid media={imageGroups.walk} />
         </GridViewBlock>
-        <GridViewBlock headline="The Ceremony">
+        <GridViewBlock headline={<Translate k="home.chapters.ceremony" />}>
           <MediaGrid media={imageGroups.ceremony} />
         </GridViewBlock>
-        <GridViewBlock headline="The Reception">
+        <GridViewBlock headline={<Translate k="home.chapters.reception" />}>
           <MediaGrid media={imageGroups.reception} />
         </GridViewBlock>
       </main>

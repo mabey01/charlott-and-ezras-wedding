@@ -11,27 +11,34 @@ import { SupabaseProvider } from "./provider/supabase-provider.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { UserProvider } from "./provider/user-provider.tsx";
 import LoadingPage from "./pages/loading.tsx";
+import { LanguageProvider } from "./provider/language-provider.tsx";
+import { RootLayout } from "./components/root-layout/root-layout.tsx";
 
 const HomePage = lazy(() => import("./pages/home.tsx"));
 const ImagePage = lazy(() => import("./pages/image.tsx"));
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: (
-      <Suspense fallback={<LoadingPage>Loading grid</LoadingPage>}>
-        <HomePage />
-      </Suspense>
-    ),
+    element: <RootLayout />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: "image/:imageId",
-    element: (
-      <Suspense fallback={<LoadingPage>Loading image</LoadingPage>}>
-        <ImagePage />
-      </Suspense>
-    ),
+    children: [
+      {
+        path: "/",
+        element: (
+          <Suspense fallback={<LoadingPage>Loading grid</LoadingPage>}>
+            <HomePage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "image/:imageId",
+        element: (
+          <Suspense fallback={<LoadingPage>Loading image</LoadingPage>}>
+            <ImagePage />
+          </Suspense>
+        ),
+      },
+    ],
   },
 ]);
 
@@ -44,7 +51,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Tooltip.Provider delayDuration={200}>
           <UserProvider>
             <ImageProvider>
-              <RouterProvider router={router} />
+              <LanguageProvider>
+                <RouterProvider router={router} />
+              </LanguageProvider>
             </ImageProvider>
           </UserProvider>
         </Tooltip.Provider>

@@ -16,6 +16,7 @@ import { useImageStats } from "../hooks/use-image-stats";
 import { useLikedAnimation } from "../hooks/use-liked-animation";
 import { useUnlikeImage } from "../hooks/use-unlike-image";
 import { useCallback } from "react";
+import { Translate } from "../components/translate/translate";
 
 export default function ImagePage() {
   const { imageId } = useParams();
@@ -75,6 +76,8 @@ export default function ImagePage() {
     play();
   }, [likeImage, play]);
 
+  console.log(currentImage);
+
   return (
     <>
       <div className="px-0.5 py-2 sm:p-2 md:p-4 h-screen flex flex-col gap-4 ">
@@ -96,7 +99,7 @@ export default function ImagePage() {
               />
             </svg>
             <span className="group-hover:text-neutral-800 text-sm">
-              Back to grid view
+              <Translate k="image.backToGrid" />
             </span>
           </Link>
         </div>
@@ -196,7 +199,9 @@ export default function ImagePage() {
                 <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" />
                 <path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z" />
               </svg>
-              <span className="text-xs">Download</span>
+              <span className="text-xs">
+                <Translate k="image.download" />
+              </span>
             </a>
             <button
               onClick={handleRequestFullScreen}
@@ -210,7 +215,9 @@ export default function ImagePage() {
               >
                 <path d="M13.28 7.78l3.22-3.22v2.69a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.69l-3.22 3.22a.75.75 0 001.06 1.06zM2 17.25v-4.5a.75.75 0 011.5 0v2.69l3.22-3.22a.75.75 0 011.06 1.06L4.56 16.5h2.69a.75.75 0 010 1.5h-4.5a.747.747 0 01-.75-.75zM12.22 13.28l3.22 3.22h-2.69a.75.75 0 000 1.5h4.5a.747.747 0 00.75-.75v-4.5a.75.75 0 00-1.5 0v2.69l-3.22-3.22a.75.75 0 10-1.06 1.06zM3.5 4.56l3.22 3.22a.75.75 0 001.06-1.06L4.56 3.5h2.69a.75.75 0 000-1.5h-4.5a.75.75 0 00-.75.75v4.5a.75.75 0 001.5 0V4.56z" />
               </svg>
-              <span className="text-xs">Fullscreen</span>
+              <span className="text-xs">
+                <Translate k="image.fullscreen" />
+              </span>
             </button>
           </div>
         </div>
