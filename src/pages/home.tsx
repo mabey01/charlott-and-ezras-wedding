@@ -26,18 +26,18 @@ export default function HomePage() {
   return (
     <>
       <header className="flex flex-col w-screen h-screen overflow-hidden">
-        <div className="flex-1 text-neutral-800 flex flex-col justify-center">
-          <div className="flex flex-col items-center">
+        <div className="text-neutral-800 flex flex-col justify-center">
+          <div className="flex flex-col items-center py-16 md:py-24">
             <span className="text-neutral-400">{formattedDate}</span>
             <h1 className="font-bold text-4xl xl:text-5xl font-serif text-center lg:mt-2">
               <Translate k="home.headline" />
             </h1>
           </div>
         </div>
-        <div className="overflow-hidden flex flex-col justify-center px-1 md:px-4 lg:px-32 xl:px-64 2xl:px-64">
-          <div className="aspect-video">
+        <div className="overflow-hidden flex flex-col justify-center px-1 md:px-4">
+          <div className="aspect-video max-w-6xl mx-auto h-full">
             <video
-              className="h-full object-cover rounded-xl"
+              className="h-full object-contain rounded-xl overflow-hidden"
               width="1920"
               height="1080"
               src="https://storage.googleapis.com/charlott-and-ezras-wedding-media-files/videos/Wedding%20Header.mp4"
@@ -49,7 +49,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="h-[33%] lg:h-[15%] xl:h-[10%] pb-4 flex flex-col gap-1 justify-end items-center">
+        <div className="flex-1 pb-4 mt-16 flex flex-col gap-1 justify-end items-center">
           <LanguageSwitcher className="text-neutral-400 text-sm" />
           <a
             href="#the-night-before"
