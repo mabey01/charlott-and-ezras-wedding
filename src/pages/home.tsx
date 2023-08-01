@@ -2,13 +2,18 @@ import { useSearchParams } from "react-router-dom";
 import { GridViewBlock } from "../components/grid-view-block/grid-view-block";
 import { MediaGrid } from "../components/media-grid/media-grid";
 import { useImageGroups } from "../hooks/use-image-groups";
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useMemo } from "react";
 import { Translate } from "../components/translate/translate";
 import { LanguageSwitcher } from "../components/language-switcher/language-switcher";
+import { formatDate } from "../utils/format-date";
 
 export default function HomePage() {
   const imageGroups = useImageGroups();
   const [searchParams] = useSearchParams();
+
+  const formattedDate = useMemo(() => {
+    return formatDate(navigator.language, new Date(Date.UTC(2023, 6, 22)));
+  }, []);
 
   useLayoutEffect(() => {
     const lastSeenImage = searchParams.get("image");
@@ -23,7 +28,7 @@ export default function HomePage() {
       <header className="flex flex-col w-screen h-screen overflow-hidden">
         <div className="flex-1 text-neutral-800 flex flex-col justify-center">
           <div className="flex flex-col items-center">
-            <span className="text-neutral-400">22.07.2023</span>
+            <span className="text-neutral-400">{formattedDate}</span>
             <h1 className="font-bold text-4xl xl:text-5xl font-serif text-center lg:mt-2">
               <Translate k="home.headline" />
             </h1>
@@ -67,7 +72,7 @@ export default function HomePage() {
           </a>
         </div>
       </header>
-      <main className="p-2 mt-32 md:p-4 lg:p-8 container mx-auto flex flex-col gap-32 md:gap-64">
+      <main className="p-2 mt-32 md:p-4 lg:p-8 container mx-auto flex flex-col gap-32 md:gap-64 xl:gap-80">
         <GridViewBlock
           id="the-night-before"
           headline={<Translate k="home.chapters.nightBefore" />}
