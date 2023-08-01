@@ -29,7 +29,7 @@ export default function HomePage() {
             </h1>
           </div>
         </div>
-        <div className="overflow-hidden flex flex-col justify-center px-1 md:px-4 lg:px-16 xl:px-32">
+        <div className="overflow-hidden flex flex-col justify-center px-1 md:px-4 lg:px-16 xl:px-32 2xl:px-64">
           <div className="aspect-video">
             <video
               className="h-full object-cover rounded-xl"
