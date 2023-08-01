@@ -34,7 +34,7 @@ export default function HomePage() {
             </h1>
           </div>
         </div>
-        <div className="overflow-hidden flex flex-col justify-center px-1 md:px-4 lg:px-16 xl:px-32 2xl:px-64">
+        <div className="overflow-hidden flex flex-col justify-center px-1 md:px-4 lg:px-32 xl:px-64 2xl:px-64">
           <div className="aspect-video">
             <video
               className="h-full object-cover rounded-xl"
@@ -49,7 +49,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="h-[33%] md:h-[15%] xl:h-[10%] pb-4 flex flex-col gap-1 justify-end items-center">
+        <div className="h-[33%] lg:h-[15%] xl:h-[10%] pb-4 flex flex-col gap-1 justify-end items-center">
           <LanguageSwitcher className="text-neutral-400 text-sm" />
           <a
             href="#the-night-before"

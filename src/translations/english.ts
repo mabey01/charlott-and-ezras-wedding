@@ -3,6 +3,7 @@ export const english = {
     description: "Gallery of the Wedding Photos",
   },
   home: {
+    loading: "Loading Grid",
     headline: "Charlott and Ezra's Wedding",
     chapters: {
       nightBefore: "The Night Before",
@@ -14,6 +15,7 @@ export const english = {
     },
   },
   image: {
+    loading: "Loading Photo",
     backToGrid: "Back to Grid view",
     download: "Download",
     fullscreen: "Fullscreen",

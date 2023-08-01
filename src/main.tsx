@@ -13,6 +13,7 @@ import { UserProvider } from "./provider/user-provider.tsx";
 import LoadingPage from "./pages/loading.tsx";
 import { LanguageProvider } from "./provider/language-provider.tsx";
 import { RootLayout } from "./components/root-layout/root-layout.tsx";
+import { Translate } from "./components/translate/translate.ts";
 
 const HomePage = lazy(() => import("./pages/home.tsx"));
 const ImagePage = lazy(() => import("./pages/image.tsx"));
@@ -25,7 +26,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: (
-          <Suspense fallback={<LoadingPage>Loading grid</LoadingPage>}>
+          <Suspense fallback={<LoadingPage><Translate k="home.loading"/></LoadingPage>}>
             <HomePage />
           </Suspense>
         ),
@@ -33,7 +34,7 @@ const router = createBrowserRouter([
       {
         path: "image/:imageId",
         element: (
-          <Suspense fallback={<LoadingPage>Loading image</LoadingPage>}>
+          <Suspense fallback={<LoadingPage><Translate k="image.loading"/></LoadingPage>}>
             <ImagePage />
           </Suspense>
         ),

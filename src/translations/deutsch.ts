@@ -2,9 +2,10 @@ import { Translation } from ".";
 
 export const german: Translation = {
   seo: {
-    description: "Eine Gallery von Hochzeitsfotos",
+    description: "Eine Gallerie von Hochzeitsfotos",
   },
   home: {
+    loading: "Lade Gallerie",
     headline: "Charlott und Ezra's Hochzeit",
     chapters: {
       nightBefore: "Der Abend davor",
@@ -16,7 +17,8 @@ export const german: Translation = {
     },
   },
   image: {
-    backToGrid: "Zurück zur Gallery",
+    loading: 'Lade Bild',
+    backToGrid: "Zurück zur Gallerie",
     download: "Download",
     fullscreen: "Vollbild",
   },
