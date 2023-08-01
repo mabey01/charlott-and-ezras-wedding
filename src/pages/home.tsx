@@ -49,7 +49,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="flex-1 pb-4 mt-16 flex flex-col gap-1 justify-end items-center">
+        <div className="flex-1 pb-4 mt-16 flex flex-col gap-2 justify-end items-center">
           <LanguageSwitcher className="text-neutral-400 text-sm" />
           <a
             href="#the-night-before"
