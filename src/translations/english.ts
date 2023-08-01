@@ -1,4 +1,7 @@
 export const english = {
+  seo: {
+    description: "Gallery of the Wedding Photos",
+  },
   home: {
     headline: "Charlott and Ezra's Wedding",
     chapters: {

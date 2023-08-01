@@ -1,6 +1,9 @@
 import { Translation } from ".";
 
 export const german: Translation = {
+  seo: {
+    description: "Eine Gallery von Hochzeitsfotos",
+  },
   home: {
     headline: "Charlott und Ezra's Hochzeit",
     chapters: {
